@@ -1,6 +1,6 @@
 # To Do List
 
-Simple To Do List with many features:
+A simple To Do List with many features:
 * Tasks with name and priority status
 * Can have no time limit, a set due date or how often the task should be repeated
 * Organise your tasks into different lists
