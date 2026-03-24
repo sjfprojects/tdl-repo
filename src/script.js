@@ -5,13 +5,17 @@ function changePage(newPage) {
 function createNewList() {
     const input = document.createElement("input");
     input.type = "text";
-    document.getElementById("list-container").prepend(input);
+
+    const container = document.getElementById("list-container");
+    container.prepend(input);
     input.focus();
-    document.getElementById("new-list-button").disabled = true;
+
+    const newListButton = document.getElementById("new-list-button");
+    newListButton.disabled = true;
 
     input.addEventListener("blur", (e) => {
         input.remove();
-        document.getElementById("new-list-button").disabled = false;
+        newListButton.disabled = false;
     })
 
     input.addEventListener("keydown", (e) => {
@@ -25,8 +29,8 @@ function createNewList() {
                 changePage(value);
             });
 
-            document.getElementById("list-container").append(listButton);
-            document.getElementById("new-list-button").disabled = false;
+            container.append(listButton);
+            newListButton.disabled = false;
 
             changePage(value);
         }
