@@ -2,8 +2,13 @@ body {
     height: 100vh;
     margin: 0;
     font-family: sans-serif;
+    overflow-wrap: break-word;
     display: flex;
     flex-direction: row;
+}
+
+h1 {
+    margin: 0;
 }
 
 button {
@@ -21,7 +26,12 @@ button {
 }
 
 .sidebar-title {
-    margin: 0;
+    font-size: 2.5rem;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .main-container {
