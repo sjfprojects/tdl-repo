@@ -1,3 +1,7 @@
-# tdl-repo
+# To Do List
 
-Simple To Do List so that you can list out and complete all of your tasks. Each task can have a name, priority level, date to be completed by or how often it needs to be repeated. Organise them into groups, and see an overview of tasks you need to complete on the home page.
+Simple To Do List with many features:
+* Tasks with name and priority status
+* Can have no time limit, a set due date or how often the task should be repeated
+* Organise your tasks into different lists
+* An overview of tasks you need to complete on the home page
