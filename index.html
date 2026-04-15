@@ -12,14 +12,87 @@
     <body>
         <div class="sidebar">
             <h1 class="sidebar-title">To Do List</h1>
-            <button onclick="changePage('Home')">Home</button>
-            <button id="new-list-button" onclick="createNewList()">Create new list</button>
+            <button onclick="homepage()">Home</button>
+            <button id="new-list-button" onclick="createNewList()">
+                Create new list
+            </button>
             <div id="list-container" class="list-container"></div>
             <button>Edit</button>
         </div>
 
-        <div class="main-container">
-            <h1 id="page-title">test</h1>
+        <div id="main-container" class="main-container">
+            <h1 id="page-title">Home</h1>
+            <button id="add-task-button" onclick="addTask()" class="add-task-button">
+                Add task
+            </button>
+
+            <template id="add-task-template">
+                <div class="task-box-wrapper">
+                    <div class="task-box">
+                        <h1>Add task</h1>
+                        <button
+                            onclick="closeAddTask(this)"
+                            class="close-button"
+                        >
+                            <svg
+                                class="button-svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-x-icon lucide-x"
+                            >
+                                <path d="M18 6 6 18" />
+                                <path d="m6 6 12 12" />
+                            </svg>
+                        </button>
+                        <form id="add-task-options" class="add-task-options">
+                            <label
+                                >Task name:
+                                <input id="task-name" type="text" />
+                            </label>
+                            <label
+                                >Date due:
+                                <input id="date-checkbox" type="checkbox" />
+                                <input
+                                    id="date-input"
+                                    class="date-input"
+                                    type="date"
+                                />
+                            </label>
+                            <label
+                                >Priority:
+                                <input id="priority" type="checkbox" />
+                            </label>
+                        </form>
+                        <button
+                            onclick="confirmAddTask(this)"
+                            class="confirm-button"
+                        >
+                            <svg
+                                class="button-svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-check-icon lucide-check"
+                            >
+                                <path d="M20 6 9 17l-5-5" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </template>
         </div>
     </body>
 </html>

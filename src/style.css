@@ -33,6 +33,68 @@ h1 {
 .main-container {
     width: 75vw;
     background-color: rgb(192, 223, 255);
+    padding: 2em;
     display: flex;
     flex-direction: column;
+}
+
+.add-task-button {
+    display: none;
+    width: 10rem;
+}
+
+.task-box-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: calc(infinity);
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.task-box {
+    position: relative;
+    background-color: rgb(192, 223, 255);
+    width: 65vw;
+    height: 35vh;
+    border: solid black 2px;
+    border-radius: 10px;
+    padding: 2em;
+}
+
+.close-button {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+}
+
+.close-button:hover {
+    .button-svg {
+        stroke-width: 4;
+    }
+}
+
+.confirm-button {
+    position: absolute;
+    bottom: 2em;
+    right: 2em;
+}
+
+.confirm-button:hover {
+    .button-svg {
+        stroke-width: 4;
+    }
+}
+
+.add-task-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.date-input {
+    display: none;
 }

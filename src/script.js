@@ -1,5 +1,49 @@
+function homepage() {
+    document.getElementById("page-title").innerHTML = "Home";
+    document.getElementById("add-task-button").style.display = "none";
+}
+
 function changePage(newPage) {
     document.getElementById("page-title").innerHTML = newPage;
+    document.getElementById("add-task-button").style.display = "inline";
+}
+
+function addTask() {
+    let temp = document.getElementById("add-task-template");
+    let clon = temp.content.cloneNode(true);
+
+    let dateCheckbox = clon.querySelector("#date-checkbox");
+    let dateInput = clon.querySelector("#date-input");
+    dateCheckbox.addEventListener("click", (e) => {
+        console.log(dateInput.style.display);
+        if (dateInput.style.display != "inline") {
+            dateInput.style.display = "inline";
+        } else {
+            dateInput.style.display = "none";
+        }
+    })
+
+    document.body.append(clon);
+}
+
+function closeAddTask(e) {
+    e.parentNode.parentNode.remove();
+}
+
+function confirmAddTask(e) {
+    let formData = document.querySelector("#add-task-options");
+    let listName = document.getElementById("page-title").innerHTML;
+    let taskName = formData.querySelector("#task-name").value;
+    let dateCheckbox = formData.querySelector("#date-checkbox").checked;
+    let dateInput = formData.querySelector("#date-input").value;
+    let priority = formData.querySelector("#priority").checked;
+    
+    console.log(listName, taskName, dateCheckbox, dateInput, priority);
+
+
+    console.log(e.parentNode);
+
+    closeAddTask(e);
 }
 
 function createNewList() {
