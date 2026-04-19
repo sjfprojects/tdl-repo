@@ -14,6 +14,14 @@ function addTask() {
 
     let dateCheckbox = clon.querySelector("#date-checkbox");
     let dateInput = clon.querySelector("#date-input");
+    
+    let currentDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000,
+    )
+        .toISOString()
+        .slice(0, 10);
+    dateInput.min = currentDate;
+
     dateCheckbox.addEventListener("click", (e) => {
         console.log(dateInput.style.display);
         if (dateInput.style.display != "inline") {
@@ -21,7 +29,7 @@ function addTask() {
         } else {
             dateInput.style.display = "none";
         }
-    })
+    });
 
     document.body.append(clon);
 }
@@ -37,9 +45,8 @@ function confirmAddTask(e) {
     let dateCheckbox = formData.querySelector("#date-checkbox").checked;
     let dateInput = formData.querySelector("#date-input").value;
     let priority = formData.querySelector("#priority").checked;
-    
-    console.log(listName, taskName, dateCheckbox, dateInput, priority);
 
+    console.log(listName, taskName, dateCheckbox, dateInput, priority);
 
     console.log(e.parentNode);
 
@@ -60,7 +67,7 @@ function createNewList() {
     input.addEventListener("blur", (e) => {
         input.remove();
         newListButton.disabled = false;
-    })
+    });
 
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
