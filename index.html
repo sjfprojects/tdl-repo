@@ -17,7 +17,8 @@
                 Create new list
             </button>
             <div id="list-container" class="list-container"></div>
-            <button>Edit</button>
+            <button onclick="editLists()">Edit</button>
+            <button onclick="reset()">Reset</button>
         </div>
 
         <div id="main-container" class="main-container">
@@ -92,6 +93,34 @@
                         </button>
                     </div>
                 </div>
+            </template>
+
+            <template id="task-table-template">
+                <h2 id="task-table-header">Today</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Due date</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    <template id="individual-task-template">
+                        <tr>
+                            <td id="individual-task-name">Task 1</td>
+                            <td id="individual-task-date">23/4/2026</td>
+                            <td id="individual-task-status">
+                                <input type="checkbox">
+                            </td>
+                            <td>
+                                <button>Pen</button>
+                            </td>
+                            <td>
+                                <button>X</button>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
             </template>
         </div>
     </body>
