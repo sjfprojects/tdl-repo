@@ -154,14 +154,18 @@ function createNewList() {
     newListButton.disabled = true;
 
     input.addEventListener("blur", (e) => {
-        input.remove();
+        if (input.isConnected) {
+            input.remove();
+        }
         newListButton.disabled = false;
     });
 
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             const value = input.value;
-            input.remove();
+            if (input.isConnected) {
+                input.remove();
+            }
 
             newListButton.disabled = false;
 
