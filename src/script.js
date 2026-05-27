@@ -215,7 +215,9 @@ function loadLists() {
             editButton.disabled = true;
 
             input.addEventListener("blur", (e) => {
-                input.remove();
+                if (input.isConnected) {
+                    input.remove();
+                }
                 buttonContainer.insertBefore(listButton, buttonContainer.children[1]);
                 editButton.disabled = false;
             });
@@ -223,7 +225,9 @@ function loadLists() {
             input.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     const value = input.value;
-                    input.remove();
+                    if (input.isConnected) {
+                        input.remove();
+                    }
                     
                     buttonContainer.insertBefore(listButton, buttonContainer.children[1]);
                     editButton.disabled = false;
