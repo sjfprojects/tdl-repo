@@ -154,6 +154,7 @@ function createNewList() {
     newListButton.disabled = true;
 
     input.addEventListener("blur", (e) => {
+        console.log("blurred", input);
         if (input.parentNode) {
             input.remove();
         }
@@ -163,6 +164,7 @@ function createNewList() {
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             const value = input.value;
+            console.log("keydown", input);
             if (input.parentNode) {
                 input.remove();
             }
@@ -217,8 +219,10 @@ function loadLists() {
             buttonContainer.insertBefore(input, buttonContainer.children[1]);
 
             editButton.disabled = true;
+            input.focus();
 
             input.addEventListener("blur", (e) => {
+                console.log("blurred", input);
                 if (input.parentNode) {
                     input.remove();
                 }
@@ -229,6 +233,7 @@ function loadLists() {
             input.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     const value = input.value;
+                    console.log("keydown", input);
                     if (input.parentNode) {
                         input.remove();
                     }
