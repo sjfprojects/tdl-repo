@@ -153,9 +153,11 @@ function createNewList() {
     const newListButton = document.getElementById("new-list-button");
     newListButton.disabled = true;
 
+    let isRemoved = false;
     input.addEventListener("blur", (e) => {
         console.log("blurred", input);
-        if (input.parentNode) {
+        if (isRemoved == false) {
+            isRemoved = true;
             input.remove();
         }
         newListButton.disabled = false;
@@ -165,7 +167,8 @@ function createNewList() {
         if (e.key === "Enter") {
             const value = input.value;
             console.log("keydown", input);
-            if (input.parentNode) {
+            if (isRemoved == false) {
+                isRemoved = true;
                 input.remove();
             }
 
@@ -221,11 +224,14 @@ function loadLists() {
             editButton.disabled = true;
             input.focus();
 
+            let isRemoved = false;
             input.addEventListener("blur", (e) => {
                 console.log("blurred", input);
-                if (input.parentNode) {
+                if (isRemoved == false) {
+                    isRemoved = true;
                     input.remove();
                 }
+
                 buttonContainer.insertBefore(listButton, buttonContainer.children[1]);
                 editButton.disabled = false;
             });
@@ -234,7 +240,8 @@ function loadLists() {
                 if (e.key === "Enter") {
                     const value = input.value;
                     console.log("keydown", input);
-                    if (input.parentNode) {
+                    if (isRemoved == false) {
+                        isRemoved = true;
                         input.remove();
                     }
                     
