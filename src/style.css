@@ -11,6 +11,11 @@ h1 {
     margin: 0;
 }
 
+button {
+    background-color: #f0f0f0;
+    border: 2px solid rgb(96, 96, 96);
+}
+
 .sidebar {
     background-color: rgb(0, 0, 64);
     min-width: 25vw;
@@ -41,12 +46,22 @@ h1 {
     flex-direction: row;
     width: 100%;
     max-width: 100%;
-    background-color: aquamarine;
 }
 
 .move-button {
     border-right: none;
     left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.move-button:focus {
+    outline: none;
+}
+
+.move-button.selected {
+    background: lightblue;
 }
 
 .list-button {
@@ -66,6 +81,9 @@ h1 {
 .edit-button {
     border-left: none;
     border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .edit-button-input {
@@ -75,6 +93,9 @@ h1 {
 
 .bin-button {
     border-left: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-container {

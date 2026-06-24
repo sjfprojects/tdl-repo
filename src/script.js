@@ -155,7 +155,6 @@ function createNewList() {
 
     let isRemoved = false;
     input.addEventListener("blur", (e) => {
-        console.log("blurred", input);
         if (isRemoved == false) {
             isRemoved = true;
             input.remove();
@@ -166,7 +165,6 @@ function createNewList() {
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             const value = input.value;
-            console.log("keydown", input);
             if (isRemoved == false) {
                 isRemoved = true;
                 input.remove();
@@ -183,7 +181,9 @@ function createNewList() {
     });
 }
 
-function loadLists() {
+let editing = false;
+
+function loadLists(selectedIndex = null) {
     lists = JSON.parse(localStorage.getItem("listData"));
     if (lists == null || lists.length == 0) {
         lists = [];
@@ -203,6 +203,42 @@ function loadLists() {
         let moveButton = document.createElement("button");
         moveButton.innerHTML = moveIcon;
         moveButton.classList = "move-button";
+
+        function keyDownEvent(e) {
+            if (e.key === "ArrowUp") {
+                const updatedData = JSON.parse(
+                    localStorage.getItem("listData"),
+                );
+                if (currentI > 0) {
+                    [updatedData[currentI - 1], updatedData[currentI]] = [
+                        updatedData[currentI],
+                        updatedData[currentI - 1],
+                    ];
+                } else return;
+                localStorage.setItem("listData", JSON.stringify(updatedData));
+                loadLists(currentI - 1);
+            }
+            if (e.key === "ArrowDown") {
+                const updatedData = JSON.parse(
+                    localStorage.getItem("listData"),
+                );
+                if (currentI < lists.length - 1) {
+                    [updatedData[currentI + 1], updatedData[currentI]] = [
+                        updatedData[currentI],
+                        updatedData[currentI + 1],
+                    ];
+                } else return;
+                localStorage.setItem("listData", JSON.stringify(updatedData));
+                loadLists(currentI + 1);
+            }
+        }
+        moveButton.addEventListener("keydown", keyDownEvent);
+        moveButton.onclick = () => {
+            moveButton.classList.add("selected");
+        };
+        moveButton.addEventListener("blur", (e) => {
+            moveButton.style.background = "#f0f0f0";
+        });
 
         let listButton = document.createElement("button");
         listButton.classList = "list-button";
@@ -226,52 +262,59 @@ function loadLists() {
 
             let isRemoved = false;
             input.addEventListener("blur", (e) => {
-                console.log("blurred", input);
                 if (isRemoved == false) {
                     isRemoved = true;
                     input.remove();
                 }
 
-                buttonContainer.insertBefore(listButton, buttonContainer.children[1]);
+                buttonContainer.insertBefore(
+                    listButton,
+                    buttonContainer.children[1],
+                );
                 editButton.disabled = false;
             });
 
             input.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     const value = input.value;
-                    console.log("keydown", input);
                     if (isRemoved == false) {
                         isRemoved = true;
                         input.remove();
                     }
-                    
-                    buttonContainer.insertBefore(listButton, buttonContainer.children[1]);
+
+                    buttonContainer.insertBefore(
+                        listButton,
+                        buttonContainer.children[1],
+                    );
                     editButton.disabled = false;
 
-                    const updatedData = JSON.parse(localStorage.getItem("listData"));
+                    const updatedData = JSON.parse(
+                        localStorage.getItem("listData"),
+                    );
                     updatedData[currentI] = value;
-                    
-                    localStorage.setItem("listData", JSON.stringify(updatedData));
+
+                    localStorage.setItem(
+                        "listData",
+                        JSON.stringify(updatedData),
+                    );
 
                     changePage(value);
                     loadLists();
                 }
             });
-
-        }
+        };
 
         let binButton = document.createElement("button");
         binButton.innerHTML = binIcon;
-        binButton.classList = "bin-button"
+        binButton.classList = "bin-button";
         binButton.onclick = () => {
             let currentListData = JSON.parse(localStorage.getItem("listData"));
             currentListData.splice(currentI, 1);
-            console.log(currentListData);
             localStorage.setItem("listData", JSON.stringify(currentListData));
             homepage();
             binButton.parentNode.parentNode.remove();
             loadLists();
-        }
+        };
 
         const value = lists[i];
         listButton.textContent = value;
@@ -279,28 +322,53 @@ function loadLists() {
             changePage(value);
         });
 
-        editBinContainer.append(
-            editButton,
-            binButton,
-        )
-        buttonContainer.append(
-            moveButton,
-            listButton,
-            editBinContainer,
-        );
+        if (editing) {
+            editBinContainer.append(editButton, binButton);
+            buttonContainer.append(moveButton, listButton, editBinContainer);
+        } else {
+            listButton.style.border = "2px solid rgb(96, 96, 96)";
+            buttonContainer.append(listButton);
+        }
         container.append(buttonContainer);
+    }
+
+    if (selectedIndex !== null) {
+        const moveButtons = container.querySelectorAll(".move-button");
+        const button = moveButtons[selectedIndex];
+
+        if (button) {
+            button.focus();
+            button.classList.add("selected");
+        }
     }
 }
 loadLists();
 
-function editLists() {
+const deleteAllButton = document.getElementById("delete-all");
+deleteAllButton.style.display = "none";
 
+function editLists() {
+    editing = !editing;
+    const button = document.getElementById("edit-lists-button");
+    
+    if (editing) {
+        button.style.background = "lightblue";
+        deleteAllButton.style.display = "";
+    } else {
+        button.style.background = "#f0f0f0";
+        deleteAllButton.style.display = "none";
+    }
 
     loadLists();
     loadTasks();
 }
 
-function reset() {
-    localStorage.clear();
-    window.location.reload();
+function deleteAll() {
+    const confirmed = window.confirm(
+        "Are you sure you want to delete all lists and tasks? This action cannot be undone."
+    );
+    if (confirmed) {
+        localStorage.clear();
+        window.location.reload();
+    }
 }
