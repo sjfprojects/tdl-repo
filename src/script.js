@@ -72,6 +72,7 @@ function addTask() {
     let temp = document.getElementById("add-task-template");
     let clon = temp.content.cloneNode(true);
 
+    /*
     let dateCheckbox = clon.querySelector("#date-checkbox");
     let dateInput = clon.querySelector("#date-input");
 
@@ -90,6 +91,7 @@ function addTask() {
             dateInput.style.display = "none";
         }
     });
+    */
 
     document.body.append(clon);
 
@@ -125,11 +127,11 @@ function confirmAddTask(e) {
 
     let listName = document.getElementById("page-title").innerHTML;
     let taskName = formData.querySelector("#task-name").value;
-    let dateBool = formData.querySelector("#date-checkbox").checked;
-    let date = formData.querySelector("#date-input").value;
+    //let dateBool = formData.querySelector("#date-checkbox").checked;
+    //let date = formData.querySelector("#date-input").value;
     let priority = formData.querySelector("#priority").checked;
 
-    let task = [listName, taskName, dateBool, date, priority];
+    let task = [listName, taskName, priority];
     console.log(task);
 
     tasks.push(task);

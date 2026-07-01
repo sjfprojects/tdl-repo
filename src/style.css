@@ -115,6 +115,7 @@ button {
 .add-task-button {
     display: none;
     width: 10rem;
+    margin-top: 1rem;
 }
 
 .task-box-wrapper {
@@ -169,6 +170,6 @@ button {
     margin-bottom: 1em;
 }
 
-.date-input {
+/*.date-input {
     display: none;
-}
+}*/
