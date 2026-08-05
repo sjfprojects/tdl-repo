@@ -54,15 +54,17 @@ const binIcon = `
     </svg>
 `;
 
+let pageTitle = document.getElementById("page-title");
+
 function homepage() {
-    document.getElementById("page-title").innerHTML = "Home";
+    pageTitle.innerHTML = "Home";
     document.getElementById("add-task-button").style.display = "none";
 
     loadTasks();
 }
 
 function changePage(newPage) {
-    document.getElementById("page-title").innerHTML = newPage;
+    pageTitle.innerHTML = newPage;
     document.getElementById("add-task-button").style.display = "inline";
 
     loadTasks();
@@ -71,27 +73,6 @@ function changePage(newPage) {
 function addTask() {
     let temp = document.getElementById("add-task-template");
     let clon = temp.content.cloneNode(true);
-
-    /*
-    let dateCheckbox = clon.querySelector("#date-checkbox");
-    let dateInput = clon.querySelector("#date-input");
-
-    let currentDate = new Date(
-        Date.now() - new Date().getTimezoneOffset() * 60000,
-    )
-        .toISOString()
-        .slice(0, 10);
-    dateInput.min = currentDate;
-
-    dateCheckbox.addEventListener("click", (e) => {
-        console.log(dateInput.style.display);
-        if (dateInput.style.display != "inline") {
-            dateInput.style.display = "inline";
-        } else {
-            dateInput.style.display = "none";
-        }
-    });
-    */
 
     document.body.append(clon);
 
@@ -111,14 +92,126 @@ function loadTasks() {
         return;
     }
 
-    let main = document.getElementById("main-container");
+    let wrapper = document.getElementById("wrapper");
+    wrapper.replaceChildren();
 
     let temp = document.getElementById("task-table-template");
     let taskTable = temp.content.cloneNode(true);
-    main.append(taskTable);
 
-    let temp2 = document.getElementById("individual-task-template");
-    let individualTask = temp2.content.cloneNode(true);
+    for (i = 0; i < tasks.length; i++) {
+        let currentI = i;
+
+        if (tasks[i][0] != pageTitle.innerHTML) {
+            if (pageTitle.innerHTML != "Home") {
+                continue;
+            }
+        }
+
+        let temp2 = document.getElementById("individual-task-template");
+        let individualTask = temp2.content.cloneNode(true);
+
+        let absoluteBackground = individualTask.querySelector(
+            "#absolute-background"
+        );
+        if (tasks[i][2] == true) {
+            absoluteBackground.style.backgroundColor = "orange";
+        }
+        //console.log(tasks[i])
+
+        let individualTaskName = individualTask.querySelector(
+            "#individual-task-name",
+        );
+        individualTaskName.innerHTML = tasks[i][1];
+
+        let individualTaskEdit = individualTask.querySelector(
+            "#individual-task-edit",
+        );
+        individualTaskEdit.innerHTML = editIcon;
+        
+        individualTaskEdit.onclick = (e) => {   
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "edit-task-input";
+
+            const currentTask = e.currentTarget.parentNode;
+            const currentTaskName = currentTask.replaceChild(input, currentTask.children[1]);
+
+            individualTaskEdit.disabled = true;
+            input.focus();
+
+            input.addEventListener("blur", () => {
+                input.parentNode.replaceChild(currentTaskName, input);
+                input.remove();
+                individualTaskEdit.disabled = false;
+            });
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    const value = input.value;
+                    console.log(value);
+
+                    const newName = document.createElement("div");
+                    newName.innerHTML = value;
+                    input.parentNode.replaceChild(newName, input);
+
+                    input.remove();
+                    individualTaskEdit.disabled = false;
+
+                    const updatedData = JSON.parse(
+                        localStorage.getItem("taskData"),
+                    );
+                    updatedData[currentI][1] = value;
+                    localStorage.setItem(
+                        "taskData",
+                        JSON.stringify(updatedData),
+                    );
+
+                    loadTasks();
+                }
+            })
+        }
+        
+        let individualTaskDelete = individualTask.querySelector(
+            "#individual-task-delete",
+        );
+        individualTaskDelete.innerHTML = binIcon;
+
+        individualTaskDelete.onclick = (e) => {
+            let currentTaskData = JSON.parse(localStorage.getItem("taskData"));
+            currentTaskData.splice(currentI, 1);
+            localStorage.setItem("taskData", JSON.stringify(currentTaskData));
+            individualTaskDelete.parentNode.parentNode.remove();
+            loadTasks();
+        }
+
+        let individualTaskComplete = individualTask.querySelector(
+            "#individual-task-complete"
+        );
+
+        individualTaskComplete.onchange = (e) => {
+            let status = e.target.checked;
+            const updatedData = JSON.parse(
+                    localStorage.getItem("taskData"),
+                );
+                updatedData[currentI][3] = status;
+                localStorage.setItem(
+                    "taskData",
+                    JSON.stringify(updatedData),
+                );
+                loadTasks();
+        };
+        if (tasks[i][3] == true) {
+            absoluteBackground.style.opacity = "50%";
+            individualTaskComplete.checked = true;
+        } else {
+            absoluteBackground.style.opacity = "100%";
+            individualTaskComplete.checked = false;
+        }
+
+        taskTable.append(individualTask);
+    }
+
+    wrapper.append(taskTable);
 }
 loadTasks();
 
@@ -127,11 +220,13 @@ function confirmAddTask(e) {
 
     let listName = document.getElementById("page-title").innerHTML;
     let taskName = formData.querySelector("#task-name").value;
-    //let dateBool = formData.querySelector("#date-checkbox").checked;
-    //let date = formData.querySelector("#date-input").value;
+    if (taskName.trim() == "") {
+        return;
+    }
     let priority = formData.querySelector("#priority").checked;
+    let completed = false;
 
-    let task = [listName, taskName, priority];
+    let task = [listName, taskName, priority, completed];
     console.log(task);
 
     tasks.push(task);
@@ -140,6 +235,7 @@ function confirmAddTask(e) {
     localStorage.setItem("taskData", JSON.stringify(tasks));
 
     closeAddTask(e);
+    loadTasks();
 }
 
 lists = [];
@@ -167,6 +263,10 @@ function createNewList() {
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             const value = input.value;
+            if (value.trim() == "") {
+                return;
+            }
+
             if (isRemoved == false) {
                 isRemoved = true;
                 input.remove();
@@ -352,7 +452,7 @@ deleteAllButton.style.display = "none";
 function editLists() {
     editing = !editing;
     const button = document.getElementById("edit-lists-button");
-    
+
     if (editing) {
         button.style.background = "lightblue";
         deleteAllButton.style.display = "";
@@ -367,7 +467,7 @@ function editLists() {
 
 function deleteAll() {
     const confirmed = window.confirm(
-        "Are you sure you want to delete all lists and tasks? This action cannot be undone."
+        "Are you sure you want to delete all lists and tasks? This action cannot be undone.",
     );
     if (confirmed) {
         localStorage.clear();

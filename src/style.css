@@ -173,3 +173,41 @@ button {
 /*.date-input {
     display: none;
 }*/
+
+.table {
+    width: 100%;
+    border: 2px solid black;
+    background: #f0f0f0;
+}
+
+#absolute-background {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+}
+
+.table-row {
+    box-sizing: border-box;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+#space-filler {
+    flex-grow: 1;
+}
+
+.edit-task-input {
+    width: 10rem;
+}
+
+#individual-task-complete {
+    width: 1.5rem;
+    height: 1.5rem;
+}

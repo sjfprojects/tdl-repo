@@ -27,6 +27,8 @@
                 Add task
             </button>
 
+            <div id="wrapper"></div>
+
             <template id="add-task-template">
                 <div class="task-box-wrapper">
                     <div class="task-box">
@@ -96,31 +98,20 @@
             </template>
 
             <template id="task-table-template">
-                <h2 id="task-table-header">Today</h2>
-                <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Due date</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                    <template id="individual-task-template">
-                        <tr>
-                            <td id="individual-task-name">Task 1</td>
-                            <td id="individual-task-date">23/4/2026</td>
-                            <td id="individual-task-status">
-                                <input type="checkbox">
-                            </td>
-                            <td>
-                                <button>Pen</button>
-                            </td>
-                            <td>
-                                <button>X</button>
-                            </td>
-                        </tr>
-                    </template>
-                </table>
+                <h2 id="task-table-header">Tasks</h2>
+            </template>
+
+            <template id="individual-task-template">
+                <div class="table">
+                    <div class="table-row">
+                        <div id="absolute-background"></div>
+                        <div id="individual-task-name"></div>
+                        <div id="space-filler"></div>
+                        <button id="individual-task-edit"></button>
+                        <button id="individual-task-delete"></button>
+                        <input id="individual-task-complete" type="checkbox"></input>
+                    </div>
+                </div>
             </template>
         </div>
     </body>
